@@ -1,0 +1,59 @@
+Test Category,Test ID,Test Case,Expected Result
+Connection & Advertising,A1,App scans for device when bulb is advertising,Device appears in scan results
+Connection & Advertising,A2,Device does not advertise,App cannot find device
+Connection & Advertising,A3,Advertises with incorrect MAC/name,App may ignore the device or misidentify it
+Connection & Advertising,A4,App connects during extended scan window,Connection succeeds
+Connection & Advertising,A5,App connects after timeout (e.g., 10s after first scan),Fails or re-triggers scan
+Connection & Advertising,A6,Attempt simultaneous connections,Only one central connects; second is rejected
+Connection & Advertising,A7,App tries to connect when device is already connected,Error or retry
+
+Pairing & Security,B1,Device requests pairing (Just Works),App initiates pairing without user input
+Pairing & Security,B2,App initiates pairing (respond to Security Request),Device responds and bonding succeeds
+Pairing & Security,B3,Device has IRK, app uses RPA,Address is resolved and bonded session resumes
+Pairing & Security,B4,Human enters wrong PIN/Passkey (if supported),Pairing fails
+Pairing & Security,B5,Bonded device reconnects after reboot,Bonded session resumes without pairing
+Pairing & Security,B6,Try to pair when already encrypted,Pairing ignored or rejected
+Pairing & Security,B7,Unbonding from app then reconnect,Triggers re-pairing or fails connection
+
+GATT Operations,C1,App sends ON command to Smart Bulb,Bulb state changes to ON
+GATT Operations,C2,App sends OFF command to Smart Plug,Plug switches OFF
+GATT Operations,C3,App requests bulb color/state,Correct GATT read response sent
+GATT Operations,C4,App writes invalid value (e.g., 0xFF for bool),Write rejected or ignored
+GATT Operations,C5,App subscribes to notifications,Device sends state updates on change
+GATT Operations,C6,App unsubscribes,No further notifications sent
+GATT Operations,C7,Multiple GATT commands in quick succession,All handled without crash/drop
+GATT Operations,C8,Write to non-writable characteristic,Write fails with error
+GATT Operations,C9,Read from a secure characteristic before pairing,Read fails
+GATT Operations,C10,Read from secure characteristic after bonding,Succeeds
+
+Human Errors,D1,User tries to pair with a powered-off device,No response or scan fails
+Human Errors,D2,User moves device out of range after pairing,Disconnection event handled
+Human Errors,D3,User rapidly toggles power in app,State changes processed or throttled
+Human Errors,D4,User forgets device in system Bluetooth and reconnects,App re-pairs successfully
+Human Errors,D5,App crashes during active session,Device handles disconnection cleanly
+Human Errors,D6,Virtual device crashes mid-session,App retries or throws error
+Human Errors,D7,Time mismatch between app and device,Scheduling may fail or misfire
+
+Generic BLE Behavior,E1,Device uses extended advertising,App supports extended format
+Generic BLE Behavior,E2,Device uses BLE Privacy (RPA),App resolves address with IRK
+Generic BLE Behavior,E3,Device supports multiple roles,Roles handled properly
+Generic BLE Behavior,E4,Connection parameter update request,Accepted or renegotiated
+Generic BLE Behavior,E5,GATT MTU exchange negotiation,MTU set to max supported
+Generic BLE Behavior,E6,App requests notifications without CCCD write,No notifications sent
+Generic BLE Behavior,E7,CCCD write but char doesn’t support Notify,Ignored or error
+Generic BLE Behavior,E8,BLE peripheral initiates disconnection,App handles and displays it
+Generic BLE Behavior,E9,Attempt reconnection within 1s,Device may reject or accept
+Generic BLE Behavior,E10,Send large attribute value (>20 bytes),Correctly fragmented via ATT
+Generic BLE Behavior,E11,Simulate packet loss or RF drop,App retries or fails gracefully
+
+BLE Profile Edge Cases,F1,HR monitor: App polls continuously,Notifications sent periodically
+BLE Profile Edge Cases,F2,Temperature sensor: °F sent instead of °C,App misreads or mislabels
+BLE Profile Edge Cases,F3,BLE Lock: unlock without bonding,Rejected if bonding required
+BLE Profile Edge Cases,F4,HID sends report before encryption,Blocked if not allowed
+BLE Profile Edge Cases,F5,Beacon rapidly changes UUID,App handles zone switch correctly
+
+Protocol Compliance,G1,Invalid ATT opcode sent by app,Error Response sent
+Protocol Compliance,G2,App sends Read Blob without offset,Error if not supported
+Protocol Compliance,G3,App sends signed write,Must verify signature or fail
+Protocol Compliance,G4,Unexpected packet sequence,Device handles or rejects
+Protocol Compliance,G5,GATT service UUID misaligned,Ignored or rejected

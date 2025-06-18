@@ -433,7 +433,21 @@ async def setup_virtual_device(config_file, readings_csv, transport_path, device
 
         
         await device.start_advertising()
-       
+        # Just before waiting for event
+        #update_file_path = sys.argv[5] if len(sys.argv) > 5 else "data.json"
+
+
+
+        
+        # Start JSON polling thread
+      #   polling_thread = threading.Thread(
+      #      target=poll_json_and_update_gatt,
+       #     args=(update_file_path, device.gatt_server),
+        #    daemon=True
+        #)
+        #polling_thread.start()
+
+        
         await asyncio.sleep(40) 
         
         await asyncio.Event().wait()
